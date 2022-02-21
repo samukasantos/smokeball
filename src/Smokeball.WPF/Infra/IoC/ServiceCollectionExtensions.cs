@@ -33,7 +33,11 @@ namespace Smokeball.WPF.Infra.IoC
             {
                 var httpFactory = provider.GetRequiredService<IHttpClientFactory>();
 
-                return new HttpConnector(httpFactory) { BaseUri = configuration["GoogleHttpIntegration:BaseUri"] };
+                var httpConnector = new HttpConnector(httpFactory){  BaseUri = configuration["GoogleHttpIntegration:BaseUri"] };
+
+                httpConnector.SetMaxRetryAttempts(int.Parse(configuration["HttpConfiguration:MaxRetryAttempts"]));
+
+                return httpConnector;
             });
 
             //Views

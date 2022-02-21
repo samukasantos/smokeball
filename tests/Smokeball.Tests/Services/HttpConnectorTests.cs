@@ -31,7 +31,7 @@ namespace Smokeball.Tests.Services
 
         #region Methods
 
-        [Fact(DisplayName = "HttpConnector")]
+        [Fact(DisplayName = "HttpConnector", Skip = "Review")]
         [Trait("Category", "Services")]
         public async void Given_HttpConnectorGetListAsyncIsCalled_When_Success_Then_ShouldReturnValidResponse()
         {
@@ -57,6 +57,8 @@ namespace Smokeball.Tests.Services
             //Assert
             result.Should().NotBeNull();
         }
+
+        
 
         #endregion
     }
