@@ -39,7 +39,7 @@ namespace Smokeball.WPF.Infra.Http
 
         public void SetMaxRetryAttempts(int maxRetryAttempts) 
         {
-            if(MaxRetryAttempts > 0)
+            if(maxRetryAttempts > 0)
             {
                 MaxRetryAttempts = maxRetryAttempts;
 
