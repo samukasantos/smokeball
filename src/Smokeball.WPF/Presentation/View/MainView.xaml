@@ -113,12 +113,12 @@
                         Grid.ColumnSpan="4"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center">
-            <StackPanel Height="120"
+            <StackPanel Height="140"
                         Width="400"
                         Background="White"
                         Visibility="{Binding HasError, Converter={StaticResource visibilityConverter}}" >
                 <Border CornerRadius="6" BorderBrush="Gray" BorderThickness="2">
-                    <Grid>
+                    <Grid Height="130">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*" />
                             <ColumnDefinition Width="1*" />
