@@ -17,4 +17,11 @@
 	  <ProjectReference Include="..\..\Building-Blocks\Smokeball.Core\Smokeball.Core.csproj" />
 	  <ProjectReference Include="..\Smokeball.Infra\Smokeball.Infra.csproj" />
 	</ItemGroup>
+
+	<Target Name="CopyPackage" AfterTargets="Pack"  >
+		<Copy OverwriteReadOnlyFiles="true"
+		  SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg"
+		  DestinationFolder="..\..\..\packages"
+    />
+	</Target>
 </Project>
