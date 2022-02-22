@@ -119,7 +119,7 @@ namespace Smokeball.Tests.Adapter
                 }
             };
             //Act
-            var result = queryValidationResult.ToViewModel();
+            var result = queryValidationResult.ToModel();
 
             //Assert
             result.IsValid().Should().BeTrue();
@@ -134,7 +134,7 @@ namespace Smokeball.Tests.Adapter
             QueryValidationResult queryValidationResult = null;
 
             //Act
-            Action act = () => queryValidationResult.ToViewModel();
+            Action act = () => queryValidationResult.ToModel();
 
             //Assert
             act.Should().Throw<ArgumentNullException>();
@@ -150,7 +150,7 @@ namespace Smokeball.Tests.Adapter
             queryValidationResult.Errors.Add(new ValidationFailure(string.Empty, "Failed"));
 
             //Act
-            var result = queryValidationResult.ToViewModel();
+            var result = queryValidationResult.ToModel();
 
             //Assert
             result.IsValid().Should().BeFalse();

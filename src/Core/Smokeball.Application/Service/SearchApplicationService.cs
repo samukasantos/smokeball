@@ -34,7 +34,7 @@ namespace Smokeball.Application.Service
             {
                 var result = await queries.SearchGoogleAsync(searchModel.ToDto());
 
-                return result.ToViewModel();
+                return result.ToModel();
             }
             catch (Exception e)
             {

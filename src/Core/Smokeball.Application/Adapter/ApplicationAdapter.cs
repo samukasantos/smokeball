@@ -24,7 +24,7 @@ namespace Smokeball.Application.Adapter
             };
         }
 
-        public static ResultModel ToViewModel(this QueryValidationResult result)
+        public static ResultModel ToModel(this QueryValidationResult result)
         {
             if (result == null)
             {
