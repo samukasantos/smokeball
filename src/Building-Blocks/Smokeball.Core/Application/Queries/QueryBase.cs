@@ -13,11 +13,9 @@ namespace Smokeball.Core.Application.Queries
 
         #region Methods
 
-        protected QueryValidationResult CreateResponse(object result)
+        protected void CreateResponse(object result)
         {
             ValidationResult.Data = result;
-
-            return ValidationResult;
         }
 
         protected void AddError(string errorMessage)

@@ -110,7 +110,7 @@ namespace Smokeball.Tests.Adapter
         public void Given_QueryValidationResultInstance_When_AdapterToResultViewModelIsCalled_Then_ShoulReturnValidViewModelInstance()
         {
             //Arrange
-            var queryValidationResult = new QueryValidationResult
+            var queryValidationResult = new QueryValidationResult()
             {
                 Data = new List<ResultDto>
                 {

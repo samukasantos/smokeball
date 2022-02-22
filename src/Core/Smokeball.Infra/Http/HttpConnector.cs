@@ -24,7 +24,6 @@ namespace Smokeball.Infra.Http
 
         #endregion
 
-
         #region Constructor
 
         public HttpConnector(IHttpClientFactory httpFactory)
@@ -55,12 +54,12 @@ namespace Smokeball.Infra.Http
 
         public async Task<string> GetListAsync(string resourceUri, string query = null)
         {
+            var resource = CreateResourceUri(resourceUri, query);
+
             return await retryPolicy.ExecuteAsync(async () =>
             {
                 using (var httpclient = httpFactory.CreateClient())
                 {
-                    var resource = CreateResourceUri(resourceUri, query);
-
                     using (var response = await httpclient.GetAsync(resource))
                     {
                         response.EnsureSuccessStatusCode();

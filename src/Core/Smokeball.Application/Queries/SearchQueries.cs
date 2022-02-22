@@ -47,7 +47,7 @@ namespace Smokeball.Application.Queries
 
                 if (titles.Any())
                 {
-                    ValidationResult.Data = titles.Take(configuration.SearchOcurrency).ToList();
+                    CreateResponse(titles.Take(configuration.SearchOcurrency).ToList());
                 }
             }
             catch (Exception e)
