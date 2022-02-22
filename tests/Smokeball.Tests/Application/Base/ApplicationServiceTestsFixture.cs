@@ -1,8 +1,4 @@
-﻿using Bogus;
-using Moq.AutoMock;
-using Smokeball.WPF.Application.Service.DTO;
-using Smokeball.WPF.Presentation.ViewModel;
-using Smokeball.WPF.Presentation.ViewModel.Adapter;
+﻿using Moq.AutoMock;
 using System;
 using Xunit;
 

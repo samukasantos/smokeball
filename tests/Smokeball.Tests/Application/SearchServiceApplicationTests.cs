@@ -2,11 +2,12 @@
 using Bogus;
 using FluentAssertions;
 using Moq;
+using Smokeball.Application.Queries.Interfaces;
+using Smokeball.Application.Service;
+using Smokeball.Application.Service.DTO;
+using Smokeball.Application.Service.Models;
+using Smokeball.Core.Application.Queries;
 using Smokeball.Tests.Application.Base;
-using Smokeball.WPF.Application.Queries.Base;
-using Smokeball.WPF.Application.Queries.Interfaces;
-using Smokeball.WPF.Application.Service;
-using Smokeball.WPF.Application.Service.DTO;
 using Smokeball.WPF.Presentation.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace Smokeball.Tests.Application
         {
             //Arrange
             var applicationService = applicationServiceTestsFixture.Mocker.CreateInstance<SearchApplicationService>();
-            var searchViewModel = new SearchViewModel { Keyword = new Faker().Random.String2(10) };
+            var searchModel = new SearchModel { Keyword = new Faker().Random.String2(10) };
             
             applicationServiceTestsFixture.Mocker.GetMock<ISearchQueries>()
                     .Setup(c => c.SearchGoogleAsync(It.IsAny<SearchDto>()))
@@ -50,15 +51,15 @@ namespace Smokeball.Tests.Application
                         var result = new QueryValidationResult();
                         result.Data = new List<ResultDto>
                         {
-                            new ResultDto { Title = "Item 1" },
-                            new ResultDto { Title = "Item 2" }
+                            new ResultDto { Value = "Item 1" },
+                            new ResultDto { Value = "Item 2" }
                         };
 
                         return Task.FromResult(result);
                     });
 
             //Act
-            var result = await applicationService.SearchAsync(searchViewModel);
+            var result = await applicationService.SearchAsync(searchModel);
 
             //Assert
             result.IsValid().Should().BeTrue();
@@ -71,14 +72,14 @@ namespace Smokeball.Tests.Application
         {
             //Arrange
             var applicationService = applicationServiceTestsFixture.Mocker.CreateInstance<SearchApplicationService>();
-            var searchViewModel = new SearchViewModel { Keyword = new Faker().Random.String2(10) };
+            var searchModel = new SearchModel { Keyword = new Faker().Random.String2(10) };
 
             applicationServiceTestsFixture.Mocker.GetMock<ISearchQueries>()
                     .Setup(c => c.SearchGoogleAsync(It.IsAny<SearchDto>()))
                     .Throws<Exception>();
 
             //Act
-            var result = await applicationService.SearchAsync(searchViewModel);
+            var result = await applicationService.SearchAsync(searchModel);
 
             //Assert
             result.Errors.Should().HaveCountGreaterThan(0);

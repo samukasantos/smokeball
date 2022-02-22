@@ -1,6 +1,6 @@
 ﻿
 using FluentAssertions;
-using Smokeball.WPF.Extensions;
+using Smokeball.Core.Extensions;
 using Xunit;
 
 namespace Smokeball.Tests.Extensions

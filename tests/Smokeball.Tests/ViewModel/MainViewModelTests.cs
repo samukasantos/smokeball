@@ -1,10 +1,11 @@
 ﻿
+using Bogus;
 using FluentAssertions;
 using Moq;
+using Smokeball.Application.Service.Interfaces;
+using Smokeball.Application.Service.Models;
 using Smokeball.Tests.ViewModel.Base;
-using Smokeball.WPF.Application.Service.Interfaces;
 using Smokeball.WPF.Presentation.ViewModel;
-using Smokeball.WPF.Presentation.ViewTemplate.Commands;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -111,10 +112,10 @@ namespace Smokeball.Tests.ViewModel
             var searchViewModel = viewModelTestsFixture.GenerateValidSearchViewModel();
 
             viewModelTestsFixture.Mocker.GetMock<ISearchApplicationService>()
-                    .Setup(c => c.SearchAsync(searchViewModel))
+                    .Setup(c => c.SearchAsync(It.IsAny<SearchModel>()))
                     .Returns(() => {
 
-                        var result = new ResultViewModel();
+                        var result = new ResultModel();
                         result.AddError("Error Message");
 
                         return Task.FromResult(result);

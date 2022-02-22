@@ -3,10 +3,11 @@
 using Bogus;
 using FluentAssertions;
 using FluentValidation.Results;
-using Smokeball.WPF.Application.Queries.Base;
-using Smokeball.WPF.Application.Service.DTO;
+using Smokeball.Application.Adapter;
+using Smokeball.Application.Service.DTO;
+using Smokeball.Application.Service.Models;
+using Smokeball.Core.Application.Queries;
 using Smokeball.WPF.Presentation.ViewModel;
-using Smokeball.WPF.Presentation.ViewModel.Adapter;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -20,10 +21,10 @@ namespace Smokeball.Tests.Adapter
         public void Given_SearchViewModelInstance_When_AdapterToSearchDtoIsCalled_Then_ShoulReturnValidViewModelInstance()
         {
             //Arrange
-            var searchViewModel = new SearchViewModel { Keyword = new Faker().Random.String2(10) };
+            var searchModel = new SearchModel { Keyword = new Faker().Random.String2(10) };
 
             //Act
-            var result = searchViewModel.ToDto();
+            var result = searchModel.ToDto();
 
             //Assert
             result.Should().NotBeNull();
@@ -34,10 +35,10 @@ namespace Smokeball.Tests.Adapter
         public void Given_SearchViewModelNullInstance_When_AdapterToSearchDtoIsCalled_Then_ShoulThrowException()
         {
             //Arrange
-            SearchViewModel searchViewModel = null;
+            SearchModel searchModel = null;
 
             //Act
-            Action act = () => searchViewModel.ToDto();
+            Action act = () => searchModel.ToDto();
 
             //Assert
             act.Should().Throw<ArgumentNullException>();
@@ -50,8 +51,8 @@ namespace Smokeball.Tests.Adapter
             //Arrange
             var list = new List<ResultDto>
             {
-                new ResultDto { Title = "Item 1" },
-                new ResultDto { Title = "Item 2" }
+                new ResultDto { Value = "Item 1" },
+                new ResultDto { Value = "Item 2" }
             };
 
             //Act
@@ -80,10 +81,10 @@ namespace Smokeball.Tests.Adapter
         public void Given_ResultDtoInstance_When_AdapterToResultSearchViewModelIsCalled_Then_ShoulReturnValidViewModelInstance()
         {
             //Arrange
-            var resultDto = new ResultDto { Title = new Faker().Random.String2(10) };
+            var resultDto = new ResultDto { Value = new Faker().Random.String2(10) };
 
             //Act
-            var result = resultDto.ToViewModel();
+            var result = resultDto.ToModel();
 
             //Assert
             result.Should().NotBeNull();
@@ -97,7 +98,7 @@ namespace Smokeball.Tests.Adapter
             ResultDto resultDto = null;
 
             //Act
-            Action act = () => resultDto.ToViewModel();
+            Action act = () => resultDto.ToModel();
 
             //Assert
             act.Should().Throw<ArgumentNullException>();
@@ -113,8 +114,8 @@ namespace Smokeball.Tests.Adapter
             {
                 Data = new List<ResultDto>
                 {
-                    new ResultDto { Title = "Title 1" },
-                    new ResultDto { Title = "Title 2" }
+                    new ResultDto { Value = "Title 1" },
+                    new ResultDto { Value = "Title 2" }
                 }
             };
             //Act

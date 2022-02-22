@@ -2,16 +2,12 @@
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Moq;
+using Smokeball.Application.Queries;
+using Smokeball.Application.Service.Configuration;
+using Smokeball.Application.Service.DTO;
+using Smokeball.Infra.Http.Interfaces;
 using Smokeball.Tests.Queries.Base;
-using Smokeball.WPF.Application.Queries;
-using Smokeball.WPF.Application.Queries.Interfaces;
-using Smokeball.WPF.Application.Queries.Models;
-using Smokeball.WPF.Application.Service.DTO;
-using Smokeball.WPF.Infra.Http;
-using Smokeball.WPF.Infra.Http.Integration;
-using Smokeball.WPF.Infra.Http.Interfaces;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -128,9 +124,9 @@ namespace Smokeball.Tests.Queries
                     SearchRole = "heading"
                 });
 
-            queriesTestsFixture.Mocker.GetMock<IOptions<RegexPatterns>>()
+            queriesTestsFixture.Mocker.GetMock<IOptions<GoogleRegexPatterns>>()
                 .Setup(c => c.Value)
-                .Returns(new RegexPatterns { GoogleH3Pattern = "<h3 class=\".*?\"><div class=\".*?\">([^<]+)</div></h3>" });
+                .Returns(new GoogleRegexPatterns { GoogleH3Pattern = "<h3 class=\".*?\"><div class=\".*?\">([^<]+)</div></h3>" });
         }
 
         #endregion
