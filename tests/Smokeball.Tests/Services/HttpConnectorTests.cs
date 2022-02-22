@@ -1,9 +1,15 @@
 ﻿
 
 using FluentAssertions;
+using Moq;
+using Moq.Protected;
 using Smokeball.Infra.Http;
 using Smokeball.Tests.Services.Base;
 using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Smokeball.Tests.Services
@@ -103,19 +109,69 @@ namespace Smokeball.Tests.Services
             act.Should().Throw<ArgumentNullException>();
         }
 
-        //[Fact(DisplayName = "HttpConnector Null ResourceUri ")]
-        //[Trait("Category", "Services")]
-        //public void Given_HttpConnector_When_GetListAsyncIsCalledWithResourceUri_Then_ShouldBuildAValidUri()
-        //{
-        //    //Arrange
-        //    var httpConnector = serviceTestsFixture.Mocker.CreateInstance<HttpConnector>();
+        [Fact(DisplayName = "HttpConnector ResourceUri Only")]
+        [Trait("Category", "Services")]
+        public void Given_HttpConnector_When_GetListAsyncIsCalledWithResourceUriWithoutQueryParameters_Then_ShouldReturnSuccess()
+        {
+            //Arrange
+            var mockFactory = serviceTestsFixture.Mocker.GetMock<IHttpClientFactory>();
+            var mockHttpMessageHandler = serviceTestsFixture.Mocker.GetMock<HttpMessageHandler>();
 
-        //    //Act
-        //    Action act = () => _ = httpConnector.GetListAsync("search", "page=1&total=100").Result;
+             mockHttpMessageHandler.Protected()
+               .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+               .ReturnsAsync(new HttpResponseMessage
+               {
+                   StatusCode = HttpStatusCode.OK,
+                   Content = new StringContent("<h3 class=\"CsDR3 dTxr9\"><div class=\"tRi92s JqpRlm8\">Dummy Test</div></h3>"),
+               });
 
-        //    //Assert
-        //    act.Should().NotThrow<ArgumentNullException>();
-        //}
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
+
+            var httpConnector = new HttpConnector(mockFactory.Object)
+            {
+                BaseUri = "https://www.google.com.au/"
+            };
+
+            //Act
+            var result = httpConnector.GetListAsync("search", string.Empty).Result;
+
+
+            //Assert
+            result.Should().NotBeNull();
+        }
+
+        [Fact(DisplayName = "HttpConnector ResourceUri + Query")]
+        [Trait("Category", "Services")]
+        public void Given_HttpConnector_When_GetListAsyncIsCalledWithResourceUriAndQueryParameters_Then_ShouldReturnSuccess()
+        {
+            //Arrange
+            var mockFactory = serviceTestsFixture.Mocker.GetMock<IHttpClientFactory>();
+            var mockHttpMessageHandler = serviceTestsFixture.Mocker.GetMock<HttpMessageHandler>();
+
+            mockHttpMessageHandler.Protected()
+              .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+              .ReturnsAsync(new HttpResponseMessage
+              {
+                  StatusCode = HttpStatusCode.OK,
+                  Content = new StringContent("<h3 class=\"CsDR3 dTxr9\"><div class=\"tRi92s JqpRlm8\">Dummy Test</div></h3>"),
+              });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
+
+            var httpConnector = new HttpConnector(mockFactory.Object)
+            {
+                BaseUri = "https://www.google.com.au/"
+            };
+
+            //Act
+            var result = httpConnector.GetListAsync("search", "num=10&q=test").Result;
+
+
+            //Assert
+            result.Should().NotBeNull();
+        }
 
         #endregion
     }
